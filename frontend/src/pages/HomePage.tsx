@@ -104,9 +104,9 @@ export const HomePage: React.FC<HomePageProps> = ({ feed = 'all' }) => {
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 cursor-pointer ${
                   active
-                    ? 'bg-[#f1f1f1] text-[#0f0f0f]'
+                    ? 'bg-[#f1f1f1] text-[#0f0f0f] shadow-md'
                     : 'bg-[#272727] text-[#f1f1f1] hover:bg-[#3f3f3f]'
                 }`}
               >
@@ -135,20 +135,20 @@ export const HomePage: React.FC<HomePageProps> = ({ feed = 'all' }) => {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
           {Array.from({ length: 8 }).map((_, idx) => (
-            <div key={idx} className="animate-pulse">
-              <div className="aspect-video bg-zinc-800 rounded-xl" />
+            <div key={idx}>
+              <div className="aspect-video skeleton-shimmer rounded-xl" />
               <div className="flex gap-3 mt-3">
-                <div className="w-9 h-9 rounded-full bg-zinc-800 shrink-0" />
+                <div className="w-9 h-9 rounded-full skeleton-shimmer shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-zinc-800 rounded w-5/6" />
-                  <div className="h-3 bg-zinc-800 rounded w-1/2" />
+                  <div className="h-4 skeleton-shimmer rounded w-5/6" />
+                  <div className="h-3 skeleton-shimmer rounded w-1/2" />
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : videos.length === 0 ? (
-        <div className="text-center py-20 bg-[#181818] rounded-2xl border border-zinc-800/80">
+        <div className="text-center py-20 bg-[#181818] rounded-2xl border border-zinc-800/80 animate-fade-up">
           <Film className="w-12 h-12 mx-auto text-zinc-600 mb-3" />
           <h3 className="text-lg font-semibold text-zinc-200">No videos found</h3>
           <p className="text-sm text-zinc-400 mt-1 max-w-md mx-auto">
@@ -161,7 +161,7 @@ export const HomePage: React.FC<HomePageProps> = ({ feed = 'all' }) => {
           {user && (
             <Link
               to="/upload"
-              className="inline-flex items-center gap-2 mt-5 px-5 py-2 rounded-full bg-[#ff0000] hover:bg-red-700 text-sm font-medium text-white"
+              className="inline-flex items-center gap-2 mt-5 px-5 py-2 rounded-full bg-[#ff0000] hover:bg-red-700 active:scale-95 text-sm font-medium text-white transition-all"
             >
               <Upload className="w-4 h-4" /> Upload Video
             </Link>
@@ -169,8 +169,8 @@ export const HomePage: React.FC<HomePageProps> = ({ feed = 'all' }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
-          {videos.map((v) => (
-            <VideoCard key={v.id} video={v} layout="grid" />
+          {videos.map((v, idx) => (
+            <VideoCard key={v.id} video={v} layout="grid" index={idx} />
           ))}
         </div>
       )}

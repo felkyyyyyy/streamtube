@@ -51,7 +51,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto py-8">
+    <div className="max-w-md mx-auto py-8 animate-fade-up">
       <div className="bg-[#181818] border border-zinc-800 rounded-2xl p-6 sm:p-8 shadow-2xl">
         <div className="flex items-center gap-2.5 mb-6">
           <div className="w-9 h-7 rounded-md bg-[#ff0000] flex items-center justify-center">

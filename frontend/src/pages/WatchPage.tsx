@@ -384,10 +384,10 @@ export const WatchPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleSubscribe}
-                  className={`ml-3 px-4 py-2 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+                  className={`ml-3 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 active:scale-95 cursor-pointer ${
                     video.is_subscribed
                       ? 'bg-[#272727] hover:bg-[#3f3f3f] text-white'
-                      : 'bg-white hover:bg-zinc-200 text-black'
+                      : 'bg-white hover:bg-zinc-200 text-black shadow-sm'
                   }`}
                 >
                   {video.is_subscribed ? 'Subscribed' : 'Subscribe'}
@@ -401,22 +401,30 @@ export const WatchPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleReact(1)}
-                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium hover:bg-[#3f3f3f] transition-colors cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium hover:bg-[#3f3f3f] active:scale-95 transition-all duration-150 cursor-pointer ${
                     video.user_reaction === 1 ? 'text-[#3ea6ff]' : 'text-white'
                   }`}
                 >
-                  <ThumbsUp className={`w-4 h-4 ${video.user_reaction === 1 ? 'fill-current' : ''}`} />
+                  <ThumbsUp
+                    className={`w-4 h-4 transition-transform ${
+                      video.user_reaction === 1 ? 'fill-current animate-like-pop' : ''
+                    }`}
+                  />
                   <span>{video.likes_count}</span>
                 </button>
                 <div className="w-px h-5 bg-zinc-600" />
                 <button
                   type="button"
                   onClick={() => handleReact(-1)}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium hover:bg-[#3f3f3f] transition-colors cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium hover:bg-[#3f3f3f] active:scale-95 transition-all duration-150 cursor-pointer ${
                     video.user_reaction === -1 ? 'text-red-400' : 'text-white'
                   }`}
                 >
-                  <ThumbsDown className={`w-4 h-4 ${video.user_reaction === -1 ? 'fill-current' : ''}`} />
+                  <ThumbsDown
+                    className={`w-4 h-4 transition-transform ${
+                      video.user_reaction === -1 ? 'fill-current animate-like-pop' : ''
+                    }`}
+                  />
                   {video.dislikes_count > 0 && <span>{video.dislikes_count}</span>}
                 </button>
               </div>
@@ -670,15 +678,15 @@ export const WatchPage: React.FC = () => {
       {/* Right Column: Recommended Videos */}
       <aside className="lg:col-span-4 space-y-3">
         <h3 className="text-sm font-semibold text-zinc-300 mb-2">Up Next</h3>
-        {recommendations.map((rec) => (
-          <VideoCard key={rec.id} video={rec} layout="compact" />
+        {recommendations.map((rec, idx) => (
+          <VideoCard key={rec.id} video={rec} layout="compact" index={idx} />
         ))}
       </aside>
 
       {/* Save to Playlist Modal */}
       {playlistOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-sm p-5">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-sm p-5 shadow-2xl animate-scale-pop">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold">Save to Playlist</h3>
               <button type="button" onClick={() => setPlaylistOpen(false)} className="cursor-pointer">
@@ -724,8 +732,8 @@ export const WatchPage: React.FC = () => {
 
       {/* Report Modal */}
       {reportOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-md p-5">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-md p-5 shadow-2xl animate-scale-pop">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold">Report Video</h3>
               <button type="button" onClick={() => setReportOpen(false)} className="cursor-pointer">
@@ -779,8 +787,8 @@ export const WatchPage: React.FC = () => {
 
       {/* Owner Manage & Private Access Grants Modal */}
       {manageOpen && (
-        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-lg p-6">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fade-in">
+          <div className="bg-[#212121] border border-zinc-700 rounded-2xl w-full max-w-lg p-6 shadow-2xl animate-scale-pop">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold">Manage Video & Private Access</h3>
               <button type="button" onClick={() => setManageOpen(false)} className="cursor-pointer">

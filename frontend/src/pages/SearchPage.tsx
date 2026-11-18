@@ -58,18 +58,18 @@ export const SearchPage: React.FC = () => {
       {loading ? (
         <div className="space-y-5">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex gap-4 animate-pulse">
-              <div className="w-[360px] aspect-video bg-zinc-800 rounded-xl shrink-0" />
+            <div key={i} className="flex gap-4">
+              <div className="w-[360px] aspect-video skeleton-shimmer rounded-xl shrink-0" />
               <div className="flex-1 space-y-3 py-2">
-                <div className="h-5 bg-zinc-800 rounded w-3/4" />
-                <div className="h-3 bg-zinc-800 rounded w-1/3" />
-                <div className="h-3 bg-zinc-800 rounded w-5/6" />
+                <div className="h-5 skeleton-shimmer rounded w-3/4" />
+                <div className="h-3 skeleton-shimmer rounded w-1/3" />
+                <div className="h-3 skeleton-shimmer rounded w-5/6" />
               </div>
             </div>
           ))}
         </div>
       ) : videos.length === 0 ? (
-        <div className="text-center py-20 bg-[#181818] rounded-2xl border border-zinc-800">
+        <div className="text-center py-20 bg-[#181818] rounded-2xl border border-zinc-800 animate-fade-up">
           <Search className="w-10 h-10 mx-auto text-zinc-600 mb-3" />
           <h3 className="text-base font-medium">No matching videos</h3>
           <p className="text-sm text-zinc-400 mt-1">
@@ -78,8 +78,8 @@ export const SearchPage: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-5">
-          {videos.map((v) => (
-            <VideoCard key={v.id} video={v} layout="horizontal" />
+          {videos.map((v, idx) => (
+            <VideoCard key={v.id} video={v} layout="horizontal" index={idx} />
           ))}
         </div>
       )}

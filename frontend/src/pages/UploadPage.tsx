@@ -40,6 +40,7 @@ export const UploadPage: React.FC = () => {
   ]);
 
   const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
   const [uploadedVideo, setUploadedVideo] = useState<VideoDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -190,12 +191,21 @@ export const UploadPage: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-6 bg-[#181818] border border-zinc-800 rounded-2xl p-6">
         {/* Dropzone */}
         <label
-          onDragOver={(e) => e.preventDefault()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
           onDrop={(e) => {
             e.preventDefault();
+            setIsDragging(false);
             handleFilePick(e.dataTransfer.files?.[0] || null);
           }}
-          className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-700 hover:border-[#3ea6ff] rounded-2xl p-8 cursor-pointer bg-[#121212] transition-colors"
+          className={`flex flex-col items-center justify-center border-2 border-dashed rounded-2xl p-8 cursor-pointer transition-all duration-200 ${
+            isDragging
+              ? 'border-[#3ea6ff] bg-[#3ea6ff]/10 scale-[1.01] shadow-[0_0_30px_-8px_rgba(62,166,255,0.45)]'
+              : 'border-zinc-700 hover:border-[#3ea6ff] bg-[#121212]'
+          }`}
         >
           <input
             type="file"
@@ -359,14 +369,14 @@ export const UploadPage: React.FC = () => {
 
         {/* Progress Bar */}
         {uploading && (
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in">
             <div className="flex items-center justify-between text-xs font-medium">
               <span className="text-[#3ea6ff]">Uploading video to storage...</span>
               <span>{progress}%</span>
             </div>
             <div className="w-full h-2.5 rounded-full bg-zinc-800 overflow-hidden">
               <div
-                className="h-full bg-[#ff0000] transition-all duration-150"
+                className="h-full progress-sheen transition-all duration-200 ease-out rounded-full"
                 style={{ width: `${progress}%` }}
               />
             </div>
